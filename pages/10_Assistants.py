@@ -20,7 +20,7 @@ with st.sidebar:
     st.divider()
     st.markdown(
         """
-        Github 링크:
+        Github 링크: https://github.com/moonssa/gpt/commit/747ccd1bcf09c33c79d26a9091a56c944ff503e7
         """
     )
 
