@@ -5,7 +5,7 @@ import openai as client
 import json
 import os
 import time
-from openai import OpenAI
+
 
 ###
 with st.sidebar:
@@ -15,7 +15,6 @@ with st.sidebar:
     api_key = st.text_input("Enter your OpenAI API key:", type="password")
     if api_key:
         os.environ["OPENAI_API_KEY"] = api_key
-        client = OpenAI(api_key=api_key)
 
     st.divider()
     st.markdown(
