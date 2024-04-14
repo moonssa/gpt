@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain.utilities.duckduckgo_search import DuckDuckGoSearchAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper
-import openai as client
+from openai import OpenAI
 import json
 import os
 import time
@@ -22,6 +22,8 @@ with st.sidebar:
         Github 링크: https://github.com/moonssa/gpt/commit/747ccd1bcf09c33c79d26a9091a56c944ff503e7
         """
     )
+
+client = OpenAI(api_key=api_key)
 
 
 def get_wikipedia(inputs):
@@ -160,9 +162,6 @@ def get_messages(thread_id):
         print(f"{message.role}:{message.content[0].text.value}")
 
 
-# API 키 설정
-
-
 def get_wikipedia(query):
     wiki = WikipediaAPIWrapper()
     return wiki.run(f"research of {query}")
@@ -173,10 +172,8 @@ def get_duckduckgo(query):
     return ddg.run(f"research of {query}")
 
 
-# 사용자 입력 받기
 user_query = st.text_input("Enter your search query:")
 
-# 검색 버튼
 if st.button("Search"):
     if not user_query:
         st.warning("Please enter a query to search.")
