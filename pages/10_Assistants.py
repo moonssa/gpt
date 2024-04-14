@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain.utilities.duckduckgo_search import DuckDuckGoSearchAPIWrapper
 from langchain.utilities import WikipediaAPIWrapper
-import openai as client
+from openai import OpenAI
 import json
 import os
 import time
@@ -24,7 +24,7 @@ with st.sidebar:
     )
 
 
-client.api_key = api_key
+client = OpenAI(api_key=api_key)
 
 
 def get_wikipedia(inputs):
