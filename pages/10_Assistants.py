@@ -181,9 +181,9 @@ if st.button("Search"):
     else:
         try:
             assistant = create_assistant()
-            print(assistant)
+            st.write(assistant)
             thread = create_thread(user_query)
-            print(thread)
+            st.write(thread)
             run = create_run(assistant.id, thread.id)
 
             while True:
@@ -193,14 +193,14 @@ if st.button("Search"):
                     poll_interval_ms=500,
                     timeout=20,
                 )
-                print(run.status)
+                st.write(run.status)
                 if run.status == "requires_action":
                     submit_tool_outputs(run.id, thread.id)
-                    break
+
                 if run.status == "completed":
                     break
                 if run.status in ("expired", "failed"):
-                    st.write(run.status)
+                    break
 
             get_messages(thread.id)
         except Exception as e:
