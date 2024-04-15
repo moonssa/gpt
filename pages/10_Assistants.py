@@ -138,6 +138,7 @@ def get_tool_outputs(run_id, thread_id):
                 "tool_call_id": action_id,
             }
         )
+        st.write(outputs)
     return outputs
 
 
