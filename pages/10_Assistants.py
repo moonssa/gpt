@@ -124,12 +124,14 @@ def get_run(run_id, thread_id):
 
 def get_tool_outputs(run_id, thread_id):
     run = get_run(run_id, thread_id)
-    st.write("*****", run.required_action.submit_tool_outputs.tool_calls, "\n\n")
+    msg = f"***** {run.required_action.submit_tool_outputs.tool_calls}\n\n"
+    st.write(msg)
     outputs = []
     for action in run.required_action.submit_tool_outputs.tool_calls:
         action_id = action.id
         function = action.function
-        st.write(f"Calling function: {function.name} with arg {function.arguments}")
+        msg = f"Calling function: {function.name} with arg {function.arguments}"
+        st.write(msg)
         outputs.append(
             {
                 "output": functions_map[function.name](json.loads(function.arguments)),
@@ -187,6 +189,7 @@ if st.button("Search"):
             run = create_run(assistant.id, thread.id)
 
             while True:
+
                 run = client.beta.threads.runs.poll(
                     run.id,
                     thread.id,
@@ -196,7 +199,7 @@ if st.button("Search"):
                 st.write(run.status)
                 if run.status == "requires_action":
                     submit_tool_outputs(run.id, thread.id)
-
+                    st.write({run.status})
                 if run.status == "completed":
                     break
                 if run.status in ("expired", "failed"):
