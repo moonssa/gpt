@@ -143,9 +143,15 @@ def get_tool_outputs(run_id, thread_id):
 
 def submit_tool_outputs(run_id, thread_id):
     outputs = get_tool_outputs(run_id, thread_id)
-    return client.beta.threads.runs.submit_tool_outputs(
+    st.write("submit")
+    print(outputs)
+    # st.write({outputs})
+    result = client.beta.threads.runs.submit_tool_outputs(
         run_id=run_id, thread_id=thread_id, tool_outputs=outputs
     )
+    print("Result")
+    print(result)
+    return result
 
 
 def get_messages(thread_id):
@@ -161,8 +167,8 @@ def get_messages(thread_id):
     messages.reverse()
     print(messages)
     for message in messages:
-        st.write(f"{message.role}: {message.content[0].text.value}")
-        print(f"{message.role}:{message.content[0].text.value}")
+        msg = f"{message.role}:{message.content[0].text.value}"
+        st.write(msg)
 
 
 def get_wikipedia(query):
@@ -196,9 +202,12 @@ if st.button("Search"):
                     poll_interval_ms=500,
                     timeout=20,
                 )
+                st.write("while 내부")
                 st.write(run.status)
                 if run.status == "requires_action":
-                    submit_tool_outputs(run.id, thread.id)
+                    result = submit_tool_outputs(run.id, thread.id)
+                    st.write(result)
+                    st.write("submit_tool_outputs 다냐왔어 ")
                     st.write({run.status})
                 if run.status == "completed":
                     break
